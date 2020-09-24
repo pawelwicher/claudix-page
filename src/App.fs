@@ -30,15 +30,15 @@ let update (msg: Msg) (model: Model) =
 
 let view (model: Model) dispatch =
   div []
-      [ 
-        span [] [ str model.Name ]
-        br []
-        span [] [ str model.Nip ]
-        br []
-        span [] [ str model.Regon ]
-        br []
-        span [] [ str model.Address ]
-      ]
+    [ 
+      span [] [ str model.Name ]
+      br []
+      span [] [ str model.Nip ]
+      br []
+      span [] [ str model.Regon ]
+      br []
+      span [] [ str model.Address ]
+    ]
 
 Program.mkProgram init update view
 |> Program.withConsoleTrace
