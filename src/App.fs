@@ -5,6 +5,12 @@ open Fable.React.Props
 open Elmish
 open Elmish.React
 
+let buttonStyle = 
+    Style [
+      MarginTop 10
+      Width 100
+    ]
+
 type Model =
   { 
     Name: string
@@ -32,7 +38,7 @@ let init () =
 let update (msg: Msg) (model: Model) =
   match msg with
   | ShowDetails ->
-    {  model with Nip = "NIP 6121799181"; Regon = "REGON 363264887"; Address = "ul. Pochyła, nr 21, lok. 7A, 53-512 Wrocław" }, Cmd.none
+    { model with Nip = "NIP 6121799181"; Regon = "REGON 363264887"; Address = "ul. Pochyła, nr 21, lok. 7A, 53-512 Wrocław" }, Cmd.none
   | HideDetails ->
     init ()
 
@@ -47,9 +53,9 @@ let view (model: Model) dispatch =
       br []
       span [] [ str model.Address ]
       br []
-      button  [ OnClick (fun e -> dispatch ShowDetails) ] [ str "show" ]
+      button [ buttonStyle; OnClick (fun e -> dispatch ShowDetails) ] [ str "show" ]
       br []
-      button  [ OnClick (fun e -> dispatch HideDetails) ] [ str "hide" ]
+      button [ buttonStyle; OnClick (fun e -> dispatch HideDetails) ] [ str "hide" ]
     ]
 
 Program.mkProgram init update view
