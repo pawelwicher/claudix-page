@@ -5,31 +5,42 @@ open Fable.React.Props
 open Elmish
 open Elmish.React
 
-let buttonStyle = 
-    Style [
-      MarginTop 10
-      Width 100
-    ]
+let nameStyle = 
+  Style [
+    FontSize 16
+    Cursor "Pointer"
+  ]
+
+let displayInitialStyle = 
+  Style [
+    Display DisplayOptions.Initial
+  ]
+
+let displayNoneStyle = 
+  Style [
+    Display DisplayOptions.None
+  ]
 
 type Model =
   { 
-    Name: string
-    Nip: string
-    Regon: string
-    Address: string
+    name: string
+    nip: string
+    regon: string
+    address: string
+    showDetails: bool
   }
 
 let initialModel: Model = 
   {
-    Name = "Claudix Paweł Wicher"
-    Nip = ""
-    Regon = ""
-    Address = ""
+    name = "Claudix Paweł Wicher"
+    nip = "6121799181"
+    regon = "363264887"
+    address = "ul. Władysława Zarembowicza 35 / 69, 54-530 Wrocław"
+    showDetails = false
   }
 
 type Msg =
-  | ShowDetails
-  | HideDetails
+  | ToogleDetails
 
 let init () =
   initialModel,
@@ -37,25 +48,20 @@ let init () =
 
 let update (msg: Msg) (model: Model) =
   match msg with
-  | ShowDetails ->
-    { model with Nip = "NIP 6121799181"; Regon = "REGON 363264887"; Address = "ul. Pochyła, nr 21, lok. 7A, 53-512 Wrocław" }, Cmd.none
-  | HideDetails ->
-    init ()
+  | ToogleDetails ->
+    { model with showDetails = not model.showDetails }, Cmd.none
+
 
 let view (model: Model) dispatch =
   div []
-    [ 
-      span [] [ str model.Name ]
+    [
+      div [ nameStyle; OnClick (fun e -> dispatch ToogleDetails) ] [ str model.name ]
       br []
-      span [] [ str model.Nip ]
-      br []
-      span [] [ str model.Regon ]
-      br []
-      span [] [ str model.Address ]
-      br []
-      button [ buttonStyle; OnClick (fun e -> dispatch ShowDetails) ] [ str "show" ]
-      br []
-      button [ buttonStyle; OnClick (fun e -> dispatch HideDetails) ] [ str "hide" ]
+      div [ (if model.showDetails then displayInitialStyle else displayNoneStyle) ] [
+        div [] [ str ("Numer NIP: " + model.nip) ]
+        div [] [ str ("Numer REGON: " + model.regon) ]
+        div [] [ str ("Adres: " + model.address) ]
+      ]
     ]
 
 Program.mkProgram init update view
