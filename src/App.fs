@@ -7,8 +7,15 @@ open Elmish.React
 
 let nameStyle = 
   Style [
-    FontSize 16
+    FontSize 20
+    MarginBottom 20
     Cursor "Pointer"
+  ]
+
+let infoStyle = 
+  Style [
+    FontSize 16
+    MarginBottom 10
   ]
 
 let displayInitialStyle = 
@@ -23,20 +30,22 @@ let displayNoneStyle =
 
 type Model =
   { 
-    name: string
-    nip: string
-    regon: string
-    address: string
-    showDetails: bool
+    Name: string
+    Nip: string
+    Regon: string
+    Pkd: string
+    Address: string
+    ShowDetails: bool
   }
 
 let initialModel: Model = 
   {
-    name = "Claudix Paweł Wicher"
-    nip = "6121799181"
-    regon = "363264887"
-    address = "ul. Władysława Zarembowicza 35 / 69, 54-530 Wrocław"
-    showDetails = false
+    Name = "Claudix Paweł Wicher"
+    Nip = "6121799181"
+    Regon = "363264887"
+    Pkd = "62.01.Z, 62.02.Z, 62.09.Z"
+    Address = "ul. Władysława Zarembowicza 35 / 69, 54-530 Wrocław"
+    ShowDetails = false
   }
 
 type Msg =
@@ -49,18 +58,18 @@ let init () =
 let update (msg: Msg) (model: Model) =
   match msg with
   | ToogleDetails ->
-    { model with showDetails = not model.showDetails }, Cmd.none
+    { model with ShowDetails = not model.ShowDetails }, Cmd.none
 
 
 let view (model: Model) dispatch =
   div []
     [
-      div [ nameStyle; OnClick (fun e -> dispatch ToogleDetails) ] [ str model.name ]
-      br []
-      div [ (if model.showDetails then displayInitialStyle else displayNoneStyle) ] [
-        div [] [ str ("Numer NIP: " + model.nip) ]
-        div [] [ str ("Numer REGON: " + model.regon) ]
-        div [] [ str ("Adres: " + model.address) ]
+      div [ nameStyle; OnClick (fun e -> dispatch ToogleDetails) ] [ str model.Name ]
+      div [ (if model.ShowDetails then displayInitialStyle else displayNoneStyle) ] [
+        div [ infoStyle ] [ str ("NIP: " + model.Nip) ]
+        div [ infoStyle ] [ str ("REGON: " + model.Regon) ]
+        div [ infoStyle ] [ str ("PKD: " + model.Pkd) ]
+        div [ infoStyle ] [ str ("Adres: " + model.Address) ]
       ]
     ]
 
